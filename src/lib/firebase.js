@@ -15,8 +15,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize services
+// Initialize Auth with custom domain
 const auth = getAuth(app);
+auth.settings = {
+  ...auth.settings,
+  authDomain: "health-consult-dusky.vercel.app"
+};
+
+// Initialize services
 const db = getFirestore(app);
 
 // Google Auth Provider
