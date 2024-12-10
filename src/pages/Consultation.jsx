@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useChatHistory } from '../hooks/useChatHistory';
 import { generateResponse } from '../lib/gemini';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Bot, User, Loader2, Menu, Plus, MessageSquare, LogOut } from 'lucide-react';
+import { Send, Bot, User, Loader2, Menu, Plus, MessageSquare, LogOut, Info } from 'lucide-react';
 import { collection, query, where, orderBy, getDocs, addDoc, serverTimestamp, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
@@ -38,6 +38,14 @@ const AnimatedBackground = () => (
     </div>
   </div>
 );
+
+const popularQuestions = [
+  "Apa itu diabetes?",
+  "Gejala demam berdarah",
+  "Tips hidup sehat",
+  "Cara menjaga kesehatan mental",
+  "Manfaat olahraga teratur"
+];
 
 export default function Consultation() {
   const navigate = useNavigate();
@@ -253,6 +261,11 @@ export default function Consultation() {
     }
   };
 
+  const handleSendMessage = async (message) => {
+    setInput(message);
+    handleSubmit({ preventDefault: () => {} });
+  };
+
   return (
     <div className="flex h-screen bg-background overflow-hidden">
       {/* Sidebar */}
@@ -343,23 +356,62 @@ export default function Consultation() {
         <div className="flex-1 overflow-y-auto px-4 py-6 mt-12">
           <div className="max-w-3xl mx-auto space-y-4">
             <AnimatePresence initial={false}>
-              {messages.length === 0 ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-center space-y-4"
-                >
-                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                    <Bot className="w-10 h-10 text-primary" />
+              {messages.length === 0 && (
+                <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto px-4">
+                  <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                    <Bot className="w-12 h-12 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-bold">
+                  <h1 className="text-3xl font-bold text-foreground mb-3">
                     Selamat datang di Health Consultation
-                  </h2>
-                  <p className="text-muted-foreground">
+                  </h1>
+                  <p className="text-muted-foreground text-center mb-8">
                     Tanyakan apa saja seputar kesehatan kepada AI Assistant kami
                   </p>
-                </motion.div>
-              ) : (
+                  
+                  <div className="w-full space-y-4">
+                    <h2 className="text-lg font-semibold text-center">Pertanyaan populer:</h2>
+                    <div className="flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
+                      <button
+                        onClick={() => handleSendMessage("Apa itu diabetes?")}
+                        className="px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-full text-sm text-primary transition-colors"
+                      >
+                        Apa itu diabetes?
+                      </button>
+                      <button
+                        onClick={() => handleSendMessage("Gejala demam berdarah")}
+                        className="px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-full text-sm text-primary transition-colors"
+                      >
+                        Gejala demam berdarah
+                      </button>
+                      <button
+                        onClick={() => handleSendMessage("Tips hidup sehat")}
+                        className="px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-full text-sm text-primary transition-colors"
+                      >
+                        Tips hidup sehat
+                      </button>
+                      <button
+                        onClick={() => handleSendMessage("Cara menjaga kesehatan mental")}
+                        className="px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-full text-sm text-primary transition-colors"
+                      >
+                        Cara menjaga kesehatan mental
+                      </button>
+                      <button
+                        onClick={() => handleSendMessage("Manfaat olahraga teratur")}
+                        className="px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-full text-sm text-primary transition-colors"
+                      >
+                        Manfaat olahraga teratur
+                      </button>
+                    </div>
+                    <div className="text-sm text-muted-foreground text-center pt-4">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Info className="w-4 h-4" />
+                        Konsultasi ini hanya untuk informasi umum, bukan pengganti konsultasi dokter
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {messages.length > 0 && (
                 messages.map((message, index) => (
                   <motion.div
                     key={index}

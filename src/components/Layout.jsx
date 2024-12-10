@@ -222,10 +222,10 @@ export default function Layout({ children }) {
       <footer className="border-t">
         <div className="container py-8 md:py-12">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">About</h3>
-              <p className="text-sm text-muted-foreground">
-                HealthConsult provides AI-powered health consultations and informative articles to help you make better health decisions.
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold">About</h2>
+              <p className="text-muted-foreground">
+                Website ini dibuat oleh kelompok mahasiswa Universitas Sam Ratulangi untuk tugas Rekayasa Perangkat Lunak dan terkait dengan SDG ke-3 (Good Health and Well-being).
               </p>
             </div>
             <div>

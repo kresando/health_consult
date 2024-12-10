@@ -136,11 +136,6 @@ export default function Home() {
           </button>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="py-8 text-center text-sm text-muted-foreground border-t">
-        <p> 2024 Health Consultation. All rights reserved.</p>
-      </footer>
     </div>
   );
 }
